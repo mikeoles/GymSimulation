@@ -7,6 +7,10 @@ import java.util.Scanner;
 //import org.apache.commons.math3.distribution.ExponentialDistribution;
 //import org.apache.commons.math3.distribution.NormalDistribution;
 //import java.util.Random;
+
+
+
+//19.78569777 TOTAL arrivals per hour
 public class GymSimulation {
 
     static boolean debug = true;
@@ -16,8 +20,20 @@ public class GymSimulation {
     static double endTime = 0;
     
     public static void main(String[] args) {
+        System.out.println("poo");
         Scanner reader = new Scanner(System.in);  // Reading from System.in
-
+        
+        //generate numbers
+        double currentTime=0;
+        int times=0;
+        while(currentTime<1){
+            currentTime=currentTime+exponential(19.78569777);
+            times++;
+            System.out.println(currentTime);
+        }
+        System.out.println(""+times);
+        //
+        
         if(!debug){
             System.out.println("How long should program be run");
             endTime = reader.nextInt(); 
