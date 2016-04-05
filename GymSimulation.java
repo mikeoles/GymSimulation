@@ -6,7 +6,9 @@
  * @author 
  */
 import java.util.Scanner;
-
+//import org.apache.commons.math3.distribution.ExponentialDistribution;
+//import org.apache.commons.math3.distribution.NormalDistribution;
+//import java.util.Random;
 public class GymSimulation {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
