@@ -1,4 +1,4 @@
-//package GymSimulation;
+package GymSimulation;
 
 public class Event implements Comparable<Event> {
     private Double time;
@@ -6,11 +6,6 @@ public class Event implements Comparable<Event> {
     
     
     public Event(double time, int eventType) {
-        this.time = time;
-        this.eventType = eventType;
-    }
-
-    public Event(double time, int eventType,Passenger passenger){
         this.time = time;
         this.eventType = eventType;
     }

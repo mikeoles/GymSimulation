@@ -1,12 +1,10 @@
-//package GymSimulation;
+package GymSimulation;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
-//import org.apache.commons.math3.distribution.ExponentialDistribution;
-//import org.apache.commons.math3.distribution.NormalDistribution;
-//import java.util.Random;
+
 public class GymSimulation {
 
     static boolean debug = true;
