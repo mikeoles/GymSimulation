@@ -1,3 +1,4 @@
+package gymsimulation;
 /**
  *
  * @author Benjamin
@@ -7,6 +8,10 @@ public class Member {
     private double arrivalTime;
     private double startTime;
     private double endTime;
+    
+    public Member(double arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }    
 
     /**
      * @return the time spent waiting

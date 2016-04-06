@@ -1,13 +1,28 @@
-//package GymSimulation;
+package gymsimulation;
 
 public class Event implements Comparable<Event> {
     private Double time;
     private int eventType;
-    
+    private Member member;
     
     public Event(double time, int eventType) {
         this.time = time;
         this.eventType = eventType;
+        this.member = null;
+    }
+    
+    public Event(double time, int eventType, Member member) {
+        this.time = time;
+        this.eventType = eventType;
+        this.member = member;
+    }    
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
     }
     
     public double getTime() {
