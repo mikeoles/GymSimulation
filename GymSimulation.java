@@ -30,6 +30,7 @@ public class GymSimulation {
     static ArrayList<Double> liftTimes = new ArrayList<>();
     
     public static void main(String[] args) {
+        //for(int i=0;i<500;i++)System.out.println(normal(0.4080,0.235017207));
         System.out.println("Start Simulation");
         Scanner reader = new Scanner(System.in);  // Reading from System.in
         
@@ -133,6 +134,12 @@ public class GymSimulation {
             double benchRate = 0.5909; //value of people using benches divided by total
             double value = rand.nextDouble();
             return value>=benchRate;
+    }
+    public static double normal(double mean,double SD) {
+        Random rand = new Random();
+        double number = rand.nextGaussian()*SD+mean;
+        if (number<0)return normal(mean,SD);
+        return number;
     }
 }
 
