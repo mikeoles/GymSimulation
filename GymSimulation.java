@@ -26,6 +26,8 @@ public class GymSimulation {
     
     static ArrayList<Double> waitTimes = new ArrayList<>();
     static ArrayList<Double> liftTimes = new ArrayList<>();
+    static int numMembers = 0;
+    static int benchMembers = 0;
     
     public static void main(String[] args) {
         System.out.println("Start Simulation");
@@ -97,6 +99,10 @@ public class GymSimulation {
         exitingMember.setEndTime(currentTime);
         liftTimes.add(exitingMember.getLiftTime());
         waitTimes.add(exitingMember.getWaitTime());
+        numMembers++;
+        if(exitingMember.usedBench()){
+            benchMembers++;
+        }
         
         if(line.isEmpty()){
             freePowerRacks++;
