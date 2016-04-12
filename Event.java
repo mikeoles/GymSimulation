@@ -1,5 +1,3 @@
-package gymsimulation;
-
 public class Event implements Comparable<Event> {
     private Double time;
     private int eventType;

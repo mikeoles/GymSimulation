@@ -30,7 +30,6 @@ public class GymSimulation {
     static int benchMembers = 0;
     
     public static void main(String[] args) {
-        //for(int i=0;i<500;i++)System.out.println(normal(0.4080,0.235017207));
         System.out.println("Start Simulation");
         Scanner reader = new Scanner(System.in);  // Reading from System.in
         
@@ -132,18 +131,21 @@ public class GymSimulation {
         Random rand = new Random();
         return (int)Math.ceil(Math.log(1-rand.nextDouble()) / Math.log(1-p));
     }
-    
-    public static boolean usedBench(){
-            Random rand = new Random();
-            double benchRate = 0.5909; //value of people using benches divided by total
-            double value = rand.nextDouble();return value>=benchRate;
-    }
+    //to use, call: normal(0.4080,0.235017207);
     public static double normal(double mean,double SD) {
         Random rand = new Random();
         double number = rand.nextGaussian()*SD+mean;
         if (number<0)return normal(mean,SD);
         return number;
     }
+    
+    public static boolean usedBench(){
+            Random rand = new Random();
+            double benchRate = 0.5909; //value of people using benches divided by total
+            double value = rand.nextDouble();return value>=benchRate;
+    }
+    
+    
 }
 
 
