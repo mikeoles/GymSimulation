@@ -138,6 +138,10 @@ public class GymSimulation {
         if (number<0)return normal(mean,SD);
         return number;
     }
+    //use this to not need to input mean/SD
+    public static double getNormal() {
+        return normal(0.4080,0.235017207);
+    }
     
     public static boolean usedBench(){
             Random rand = new Random();
