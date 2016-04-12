@@ -26,6 +26,9 @@ public class GymSimulation {
     static double powerRacks = 0;//number of power racks in the gym
     static double freePowerRacks = 0;//number of open power racks
     
+    static ArrayList<Double> waitTimes = new ArrayList<>();
+    static ArrayList<Double> liftTimes = new ArrayList<>();
+    
     public static void main(String[] args) {
         System.out.println("Start Simulation");
         Scanner reader = new Scanner(System.in);  // Reading from System.in
@@ -73,13 +76,13 @@ public class GymSimulation {
         
         //create member that arrived now
         Member arrivedMember = new Member(currentTime);
-		arrivedMember.setUsedBench(usesBench());
+        arrivedMember.setUsedBench(usedBench());    
         
         //If member can walk up and start a power rack right away
         if(line.isEmpty() && freePowerRacks>0){
             freePowerRacks--;//Power rack is now taken up
             arrivedMember.setStartTime(currentTime);//member starts now
-            double liftTime = 0;//TODO: calculate lift time
+            double liftTime = .5;//TODO: calculate lift time
             Event newEvent = new Event(currentTime+liftTime,2,arrivedMember);//member will exit after done lifting
             events.add(newEvent);            
         }else{//has to wait in line
@@ -93,7 +96,19 @@ public class GymSimulation {
     }
 
     private static void memberExit(Member exitingMember) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        exitingMember.setEndTime(currentTime);
+        liftTimes.add(exitingMember.getLiftTime());
+        waitTimes.add(exitingMember.getWaitTime());
+        
+        if(line.isEmpty()){
+            freePowerRacks++;
+        }else{
+            Member nextMember = line.poll();
+            double liftTime = .5;
+            nextMember.setStartTime(currentTime);
+            Event newEvent = new Event(currentTime+liftTime,2,nextMember);//member will exit after done lifting
+            events.add(newEvent); 
+        }
     }  
  
     //print out the results 
@@ -112,17 +127,13 @@ public class GymSimulation {
         Random rand = new Random();
         return (int)Math.ceil(Math.log(1-rand.nextDouble()) / Math.log(1-p));
     }
-	public static boolean usesBench(){
-		Random rand = new Random();
-		double benchRate = 0.5909; //value of people using benches divided by total
-		double value = rand.nextDouble
-		if(value>=benchRate){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
+    
+    public static boolean usedBench(){
+            Random rand = new Random();
+            double benchRate = 0.5909; //value of people using benches divided by total
+            double value = rand.nextDouble();
+            return value>=benchRate;
+    }
 }
 
 
