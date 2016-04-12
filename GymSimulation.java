@@ -73,7 +73,7 @@ public class GymSimulation {
         
         //create member that arrived now
         Member arrivedMember = new Member(currentTime);
-		arrivedMember.setUsedBench(usedBench());
+		arrivedMember.setUsedBench(usesBench());
         
         //If member can walk up and start a power rack right away
         if(line.isEmpty() && freePowerRacks>0){
