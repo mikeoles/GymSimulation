@@ -1,5 +1,3 @@
-package gymsimulation;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -28,6 +26,8 @@ public class GymSimulation {
     
     static ArrayList<Double> waitTimes = new ArrayList<>();
     static ArrayList<Double> liftTimes = new ArrayList<>();
+    static int numMembers = 0;
+    static int benchMembers = 0;
     
     public static void main(String[] args) {
         //for(int i=0;i<500;i++)System.out.println(normal(0.4080,0.235017207));
@@ -100,6 +100,10 @@ public class GymSimulation {
         exitingMember.setEndTime(currentTime);
         liftTimes.add(exitingMember.getLiftTime());
         waitTimes.add(exitingMember.getWaitTime());
+        numMembers++;
+        if(exitingMember.usedBench()){
+            benchMembers++;
+        }
         
         if(line.isEmpty()){
             freePowerRacks++;
@@ -132,8 +136,7 @@ public class GymSimulation {
     public static boolean usedBench(){
             Random rand = new Random();
             double benchRate = 0.5909; //value of people using benches divided by total
-            double value = rand.nextDouble();
-            return value>=benchRate;
+            double value = rand.nextDouble();return value>=benchRate;
     }
     public static double normal(double mean,double SD) {
         Random rand = new Random();
