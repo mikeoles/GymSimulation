@@ -8,6 +8,7 @@ public class Member {
     private double arrivalTime;
     private double startTime;
     private double endTime;
+	private boolean usedBench;
     
     public Member(double arrivalTime) {
         this.arrivalTime = arrivalTime;
@@ -67,5 +68,11 @@ public class Member {
     public void setEndTime(double endTime) {
         this.endTime = endTime;
     }
+	public boolean getUsedBench(){
+		return usedBench;
+	}
+	public void setUsedBench(boolean usedBench){
+		this.usedBench = usedBench;
+	}
 
 }

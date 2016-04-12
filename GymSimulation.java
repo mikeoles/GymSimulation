@@ -73,6 +73,7 @@ public class GymSimulation {
         
         //create member that arrived now
         Member arrivedMember = new Member(currentTime);
+		arrivedMember.setUsedBench(usedBench());
         
         //If member can walk up and start a power rack right away
         if(line.isEmpty() && freePowerRacks>0){
@@ -111,6 +112,17 @@ public class GymSimulation {
         Random rand = new Random();
         return (int)Math.ceil(Math.log(1-rand.nextDouble()) / Math.log(1-p));
     }
+	public static boolean usesBench(){
+		Random rand = new Random();
+		double benchRate = 0.5909; //value of people using benches divided by total
+		double value = rand.nextDouble
+		if(value>=benchRate){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 }
 
 
