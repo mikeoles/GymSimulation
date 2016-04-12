@@ -1,4 +1,3 @@
-package gymsimulation;
 /**
  *
  * @author Benjamin

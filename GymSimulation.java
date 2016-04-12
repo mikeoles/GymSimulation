@@ -1,5 +1,3 @@
-package gymsimulation;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -131,8 +129,7 @@ public class GymSimulation {
     public static boolean usedBench(){
             Random rand = new Random();
             double benchRate = 0.5909; //value of people using benches divided by total
-            double value = rand.nextDouble();
-            return value>=benchRate;
+            double value = rand.nextDouble();return value>=benchRate;
     }
 }
 
