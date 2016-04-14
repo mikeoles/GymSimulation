@@ -54,7 +54,9 @@ public class GymSimulation {
         
         //generate first gym member
         if(choice == 'y'){
-   
+            double arrivalTime = exponential(arrivalRate);
+            Event newEvent = new Event(arrivalTime,4);
+            events.add(newEvent);      
         }else{
             double arrivalTime = exponential(arrivalRate);
             Event newEvent = new Event(arrivalTime,1);
@@ -72,12 +74,42 @@ public class GymSimulation {
                 memberExit(events.get(0).getMember());
             }else if(events.get(0).getEventType()==3){
                 results();
+            }else if(events.get(0).getEventType()==4){
+                choiceArrival();
+            }else if(events.get(0).getEventType()==5){
+                benchExit();
+            }else if(events.get(0).getEventType()==6){
+                squatExit();
             }
             events.remove(0);                 
         }
         
         //Print results
         results();
+        
+    }
+
+    private static void choiceArrival() {
+        if(debug) System.out.println(currentTime + ": Member arrives at gym");
+        
+        //create member that arrived now
+        Member arrivedMember = new Member(currentTime);
+        arrivedMember.setUsedBench(usedBench());    
+        
+        if(arrivedMember.getUsedBench()){
+            benchArrival(arrivedMember);
+        }else{
+            squatArrival(arrivedMember);
+        }
+        
+        //track average length of line
+        lineLength += line.size();
+        lineCount ++;
+        
+        //after member has arrived figure out the time for next arrival
+        double nextArrivalTime = currentTime+exponential(arrivalRate);
+        Event newEvent = new Event(nextArrivalTime,1);
+        events.add(newEvent);
         
     }
 
@@ -109,6 +141,30 @@ public class GymSimulation {
         events.add(newEvent);
     }
 
+    private static void benchArrival(Member arrivingMember) {
+        if(benchLine.isEmpty() && freeBench>0){
+            freeBench--;//Power rack is now taken up
+            arrivedMember.setStartTime(currentTime);//member starts now
+            double liftTime = .5;//TODO: calculate lift time
+            Event newEvent = new Event(currentTime+liftTime,5,arrivedMember);//member will exit after done lifting
+            events.add(newEvent);            
+        }else{//has to wait in line
+            benchLine.add(arrivedMember);
+        }        
+    }
+
+    private static void squatArrival(Member arrivingMember) {
+        if(squatLine.isEmpty() && freeSquat>0){
+            freeBench--;//Power rack is now taken up
+            arrivedMember.setStartTime(currentTime);//member starts now
+            double liftTime = .5;//TODO: calculate lift time
+            Event newEvent = new Event(currentTime+liftTime,6,arrivedMember);//member will exit after done lifting
+            events.add(newEvent);            
+        }else{//has to wait in line
+            squatLine.add(arrivedMember);
+        }              
+    }
+
     private static void memberExit(Member exitingMember) {
         exitingMember.setEndTime(currentTime);
         liftTimes.add(exitingMember.getLiftTime());
@@ -128,7 +184,42 @@ public class GymSimulation {
             events.add(newEvent); 
         }
     }  
- 
+    
+    private static void benchExit(Member exitingMember) {
+        exitingMember.setEndTime(currentTime);
+        liftTimes.add(exitingMember.getLiftTime());
+        waitTimes.add(exitingMember.getWaitTime());
+        numMembers++;
+        benchMembers++;
+        
+        if(line.isEmpty()){
+            freeBench++;
+        }else{
+            Member nextMember = benchLine.poll();
+            double liftTime = .5;
+            nextMember.setStartTime(currentTime);
+            Event newEvent = new Event(currentTime+liftTime,5,nextMember);//member will exit after done lifting
+            events.add(newEvent); 
+        }
+    }      
+     
+    private static void squatExit(Member exitingMember) {
+        exitingMember.setEndTime(currentTime);
+        liftTimes.add(exitingMember.getLiftTime());
+        waitTimes.add(exitingMember.getWaitTime());
+        numMembers++;
+        squatMembers++;
+        
+        if(line.isEmpty()){
+            freeSquat++;
+        }else{
+            Member nextMember = squatLine.poll();
+            double liftTime = .5;
+            nextMember.setStartTime(currentTime);
+            Event newEvent = new Event(currentTime+liftTime,6,nextMember);//member will exit after done lifting
+            events.add(newEvent); 
+        }
+    }  
     //print out the results
     //to print out average line length divide lineLength/lineCount
     public static void results(){   
