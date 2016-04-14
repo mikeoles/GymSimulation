@@ -108,7 +108,7 @@ public class GymSimulation {
         
         //after member has arrived figure out the time for next arrival
         double nextArrivalTime = currentTime+exponential(arrivalRate);
-        Event newEvent = new Event(nextArrivalTime,1);
+        Event newEvent = new Event(nextArrivalTime,4);
         events.add(newEvent);
         
     }
