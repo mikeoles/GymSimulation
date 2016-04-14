@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class GymSimulation {
 
-    static double arrivalRate = 19.78569777;
+    static double arrivalRate = 19.78569777;1
     
     static boolean debug = true;//Prints out all events and doest let user choose options
     
@@ -28,6 +28,8 @@ public class GymSimulation {
     static ArrayList<Double> liftTimes = new ArrayList<>();
     static int numMembers = 0;
     static int benchMembers = 0;
+    static double lineCount = 0;
+    static double lineLine = 0;
     
     public static void main(String[] args) {
         System.out.println("Start Simulation");
@@ -78,6 +80,10 @@ public class GymSimulation {
         Member arrivedMember = new Member(currentTime);
         arrivedMember.setUsedBench(usedBench());    
         
+        //track average length of line
+        lineLength += line.size();
+        lineCount ++;
+        
         //If member can walk up and start a power rack right away
         if(line.isEmpty() && freePowerRacks>0){
             freePowerRacks--;//Power rack is now taken up
@@ -115,9 +121,10 @@ public class GymSimulation {
         }
     }  
  
-    //print out the results 
+    //print out the results
+    //to print out average line length divide lineLength/lineCount
     public static void results(){   
-                         
+        S                
     }
     
     //returns the arrival time of the next geometric distribution
