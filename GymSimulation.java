@@ -30,6 +30,7 @@ public class GymSimulation {
     static int benchMembers = 0;
     static double lineCount = 0;
     static double lineLength = 0;
+    satic char choice = '';
     
     public static void main(String[] args) {
         System.out.println("Start Simulation");
@@ -38,6 +39,9 @@ public class GymSimulation {
         if(!debug){
             System.out.println("How long should program be run");
             endTime = reader.nextInt(); 
+            
+            System.out.println("Should we used bench/squat spefic racks? (y/n)");
+            choice = reader.nextChar();
             
             System.out.println("How many Power Racks should there be?");
             powerRacks = reader.nextInt();
@@ -49,9 +53,13 @@ public class GymSimulation {
         freePowerRacks = powerRacks;//all power racks start out empty
         
         //generate first gym member
-        double arrivalTime = exponential(arrivalRate);
-        Event newEvent = new Event(arrivalTime,1);
-        events.add(newEvent);
+        if(choice == 'y'){
+   
+        }else{
+            double arrivalTime = exponential(arrivalRate);
+            Event newEvent = new Event(arrivalTime,1);
+            events.add(newEvent);                 
+        }        
         
         //Run Simulation
         //All events are in an array with the next event sorted to the begining
