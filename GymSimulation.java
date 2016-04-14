@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class GymSimulation {
 
-    static double arrivalRate = 19.78569777;1
+    static double arrivalRate = 19.78569777;
     
     static boolean debug = true;//Prints out all events and doest let user choose options
     
@@ -23,17 +23,13 @@ public class GymSimulation {
     
     static double powerRacks = 0;//number of power racks in the gym
     static double freePowerRacks = 0;//number of open power racks
-    static double Bench = 0;//number of power racks in the gym
-    static double freeBench = 0;//number of open power racks    
-    static double Squat = 0;//number of power racks in the gym
-    static double freeSquat = 0;//number of open power racks    
     
     static ArrayList<Double> waitTimes = new ArrayList<>();
     static ArrayList<Double> liftTimes = new ArrayList<>();
     static int numMembers = 0;
     static int benchMembers = 0;
     static double lineCount = 0;
-    static double lineLine = 0;
+    static double lineLength = 0;
     
     public static void main(String[] args) {
         System.out.println("Start Simulation");
@@ -88,27 +84,13 @@ public class GymSimulation {
         lineLength += line.size();
         lineCount ++;
         
-        double liftTime = .5;//TODO: calculate lift time        
-        
         //If member can walk up and start a power rack right away
-        if(freePowerRacks>0){
+        if(line.isEmpty() && freePowerRacks>0){
             freePowerRacks--;//Power rack is now taken up
             arrivedMember.setStartTime(currentTime);//member starts now
-            arrivedMember.setLiftType(1);//1 for power rack
+            double liftTime = .5;//TODO: calculate lift time
             Event newEvent = new Event(currentTime+liftTime,2,arrivedMember);//member will exit after done lifting
             events.add(newEvent);            
-        }else if(arrivedMember.usedBench() && freeBench>0){
-            freeBench--;//Power rack is now taken up
-            arrivedMember.setStartTime(currentTime);//member starts now
-            arrivedMember.setLiftType(2);//2 for bench
-            Event newEvent = new Event(currentTime+liftTime,2,arrivedMember);//member will exit after done lifting
-            events.add(newEvent);             
-        }else if(!arrivedMember.usedBench() && freeSquat>0){
-            freeSquat--;//Power rack is now taken up
-            arrivedMember.setStartTime(currentTime);//member starts now
-            arrivedMember.setLiftType(3);//3 for squat            
-            Event newEvent = new Event(currentTime+liftTime,2,arrivedMember);//member will exit after done lifting
-            events.add(newEvent);           
         }else{//has to wait in line
             line.add(arrivedMember);
         }
@@ -128,39 +110,21 @@ public class GymSimulation {
             benchMembers++;
         }
         
-        double liftTime = .5;//TODO Lift time        
-        
         if(line.isEmpty()){
-            if(exitingMember.getLiftType()==1){
-                freePowerRacks++;
-            }else if(exitingMember.getLiftType()==2){
-                freeSquatRacks++;
-            }else{
-                freeBenchPress++;
-            }
-        }else if(exitingMember.getLiftType()==1){
+            freePowerRacks++;
+        }else{
             Member nextMember = line.poll();
+            double liftTime = .5;
             nextMember.setStartTime(currentTime);
             Event newEvent = new Event(currentTime+liftTime,2,nextMember);//member will exit after done lifting
             events.add(newEvent); 
-        }else if(exitingMember.getLiftType()==2){
-            //get squatter from line
-            if(squater is found){
-                Member nextMember
-                nextMember.setLiftType=1;
-                nextMember.setStartTime(currentTime);
-                Event newEvent = new Event(currentTime+liftTime,2,nextMember);//member will exit after done lifting
-                events.add(newEvent);                
-            }
-        }else{
-            //get bencher from line
         }
     }  
  
     //print out the results
     //to print out average line length divide lineLength/lineCount
     public static void results(){   
-        S                
+               
     }
     
     //returns the arrival time of the next geometric distribution
@@ -194,5 +158,6 @@ public class GymSimulation {
     
     
 }
+
 
 
