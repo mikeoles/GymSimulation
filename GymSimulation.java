@@ -23,6 +23,10 @@ public class GymSimulation {
     
     static double powerRacks = 0;//number of power racks in the gym
     static double freePowerRacks = 0;//number of open power racks
+    static double Bench = 0;//number of power racks in the gym
+    static double freeBench = 0;//number of open power racks    
+    static double Squat = 0;//number of power racks in the gym
+    static double freeSquat = 0;//number of open power racks    
     
     static ArrayList<Double> waitTimes = new ArrayList<>();
     static ArrayList<Double> liftTimes = new ArrayList<>();
@@ -84,13 +88,27 @@ public class GymSimulation {
         lineLength += line.size();
         lineCount ++;
         
+        double liftTime = .5;//TODO: calculate lift time        
+        
         //If member can walk up and start a power rack right away
-        if(line.isEmpty() && freePowerRacks>0){
+        if(freePowerRacks>0){
             freePowerRacks--;//Power rack is now taken up
             arrivedMember.setStartTime(currentTime);//member starts now
-            double liftTime = .5;//TODO: calculate lift time
+            arrivedMember.setLiftType(1);//1 for power rack
             Event newEvent = new Event(currentTime+liftTime,2,arrivedMember);//member will exit after done lifting
             events.add(newEvent);            
+        }else if(arrivedMember.usedBench() && freeBench>0){
+            freeBench--;//Power rack is now taken up
+            arrivedMember.setStartTime(currentTime);//member starts now
+            arrivedMember.setLiftType(2);//2 for bench
+            Event newEvent = new Event(currentTime+liftTime,2,arrivedMember);//member will exit after done lifting
+            events.add(newEvent);             
+        }else if(!arrivedMember.usedBench() && freeSquat>0){
+            freeSquat--;//Power rack is now taken up
+            arrivedMember.setStartTime(currentTime);//member starts now
+            arrivedMember.setLiftType(3);//3 for squat            
+            Event newEvent = new Event(currentTime+liftTime,2,arrivedMember);//member will exit after done lifting
+            events.add(newEvent);           
         }else{//has to wait in line
             line.add(arrivedMember);
         }
@@ -110,14 +128,19 @@ public class GymSimulation {
             benchMembers++;
         }
         
+        double liftTime = .5;//TODO Lift time        
+        
         if(line.isEmpty()){
-            freePowerRacks++;
-        }else{
+            freePowerRacks++
+        }else if(exitingMember.getLiftType()==1){
             Member nextMember = line.poll();
-            double liftTime = .5;
             nextMember.setStartTime(currentTime);
             Event newEvent = new Event(currentTime+liftTime,2,nextMember);//member will exit after done lifting
             events.add(newEvent); 
+        }else if(exitingMember.getLiftType()==2){
+            //get squatter from line
+        }else{
+            //get bencher from line
         }
     }  
  
