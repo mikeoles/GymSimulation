@@ -131,7 +131,13 @@ public class GymSimulation {
         double liftTime = .5;//TODO Lift time        
         
         if(line.isEmpty()){
-            freePowerRacks++
+            if(exitingMember.getLiftType()==1){
+                freePowerRacks++;
+            }else if(exitingMember.getLiftType()==2){
+                freeSquatRacks++;
+            }else{
+                freeBenchPress++;
+            }
         }else if(exitingMember.getLiftType()==1){
             Member nextMember = line.poll();
             nextMember.setStartTime(currentTime);
@@ -139,6 +145,13 @@ public class GymSimulation {
             events.add(newEvent); 
         }else if(exitingMember.getLiftType()==2){
             //get squatter from line
+            if(squater is found){
+                Member nextMember
+                nextMember.setLiftType=1;
+                nextMember.setStartTime(currentTime);
+                Event newEvent = new Event(currentTime+liftTime,2,nextMember);//member will exit after done lifting
+                events.add(newEvent);                
+            }
         }else{
             //get bencher from line
         }
