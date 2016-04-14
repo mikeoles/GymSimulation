@@ -7,7 +7,8 @@ public class Member {
     private double arrivalTime;
     private double startTime;
     private double endTime;
-	private boolean usedBench;
+    private boolean usedBench;
+    private int liftType;	
     
     public Member(double arrivalTime) {
         this.arrivalTime = arrivalTime;
@@ -52,6 +53,17 @@ public class Member {
      */
     public void setStartTime(double startTime) {
         this.startTime = startTime;
+    }
+
+    public double getLiftTime() {
+        return liftType;
+    }
+
+    /**
+     * @param startTime the lifting startTime to set
+     */
+    public void setLiftType(double liftType) {
+        this.liftType = liftType;
     }
 
     /**
