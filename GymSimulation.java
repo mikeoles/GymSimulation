@@ -223,7 +223,42 @@ public class GymSimulation {
     //print out the results
     //to print out average line length divide lineLength/lineCount
     public static void results(){   
-               
+        double avg_wait_time;
+        double avg_lift_time;
+        double avg_line_length;
+        int num_benched;
+        double percent_benched;
+
+        for (int i = 0; i < waitTimes.length; i++){
+            avg_wait_time += waitTimes[i];
+        }
+
+        for (int i = 0; i < liftTimes.length; i++){
+            avg_lift_time += liftTimes[i];
+        }
+
+        for (int i = 0; i < waitTimes.length; i++){ //use same array, want to generate same # of bench probabilities as ppl in this array
+            if (usedBench()){
+                num_benched++;
+            }
+        }
+
+        
+
+        avg_wait_time /= waitTimes.length;
+        avg_lift_time /= liftTimes.length;
+        avg_line_length = lineLength / lineCount;
+        percent_benched = num_benched / waitTimes.length;
+
+
+
+        System.out.println("Total Simulation runtime: " + endTime);
+        System.out.println("Number of Power Racks: " + powerRacks);
+
+        System.out.println("Average Wait Time: " + avg_wait_time);
+        System.out.println("Average Lift Time: " + avg_lift_time);
+        System.out.println("Average Line Length: " + avg_line_length);
+        System.out.println("% of Bench users: " + percent_benched);
     }
     
     //returns the arrival time of the next geometric distribution
