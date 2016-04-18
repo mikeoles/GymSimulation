@@ -48,6 +48,7 @@ public class GymSimulation {
         }else{
             endTime = 24;
             powerRacks = 10;
+            choice = 'n';
         }
         
         freePowerRacks = powerRacks;//all power racks start out empty
@@ -114,7 +115,7 @@ public class GymSimulation {
     }
 
     private static void memberArrival() {
-        if(debug) System.out.println(currentTime + ": Member arrives at gym");
+        if(debug) System.out.print(currentTime + ": Member arrives at gym");
         
         //create member that arrived now
         Member arrivedMember = new Member(currentTime);
@@ -142,6 +143,7 @@ public class GymSimulation {
     }
 
     private static void benchArrival(Member arrivingMember) {
+        if(debug) System.out.println(", Member is using bench");        
         if(benchLine.isEmpty() && freeBench>0){
             freeBench--;//Power rack is now taken up
             arrivedMember.setStartTime(currentTime);//member starts now
@@ -154,6 +156,7 @@ public class GymSimulation {
     }
 
     private static void squatArrival(Member arrivingMember) {
+        if(debug) System.out.println(", Member is using squat");        
         if(squatLine.isEmpty() && freeSquat>0){
             freeBench--;//Power rack is now taken up
             arrivedMember.setStartTime(currentTime);//member starts now
@@ -166,6 +169,7 @@ public class GymSimulation {
     }
 
     private static void memberExit(Member exitingMember) {
+        if(debug) System.out.print(currentTime + ": Member is exiting the gym");       
         exitingMember.setEndTime(currentTime);
         liftTimes.add(exitingMember.getLiftTime());
         waitTimes.add(exitingMember.getWaitTime());
@@ -176,7 +180,9 @@ public class GymSimulation {
         
         if(line.isEmpty()){
             freePowerRacks++;
+            if(debug) System.out.println(", Rack becomes available");  
         }else{
+            if(debug) System.out.println(", next member in line takes their rack");              
             Member nextMember = line.poll();
             double liftTime = .5;
             nextMember.setStartTime(currentTime);
@@ -186,6 +192,7 @@ public class GymSimulation {
     }  
     
     private static void benchExit(Member exitingMember) {
+        if(debug) System.out.print(currentTime + ": Member using bench is exiting the gym");         
         exitingMember.setEndTime(currentTime);
         liftTimes.add(exitingMember.getLiftTime());
         waitTimes.add(exitingMember.getWaitTime());
@@ -193,8 +200,10 @@ public class GymSimulation {
         benchMembers++;
         
         if(line.isEmpty()){
+            if(debug) System.out.println(", Bench becomes available");             
             freeBench++;
         }else{
+            if(debug) System.out.println(", next member in line takes their bench");             
             Member nextMember = benchLine.poll();
             double liftTime = .5;
             nextMember.setStartTime(currentTime);
@@ -204,6 +213,7 @@ public class GymSimulation {
     }      
      
     private static void squatExit(Member exitingMember) {
+        if(debug) System.out.print(currentTime + ": Member using squat is exiting the gym");         
         exitingMember.setEndTime(currentTime);
         liftTimes.add(exitingMember.getLiftTime());
         waitTimes.add(exitingMember.getWaitTime());
@@ -211,8 +221,10 @@ public class GymSimulation {
         squatMembers++;
         
         if(line.isEmpty()){
+            if(debug) System.out.println(", Squat becomes available");              
             freeSquat++;
         }else{
+            if(debug) System.out.println(", next member in line takes their squat");             
             Member nextMember = squatLine.poll();
             double liftTime = .5;
             nextMember.setStartTime(currentTime);
