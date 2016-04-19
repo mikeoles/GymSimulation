@@ -13,7 +13,7 @@ public class GymSimulation {
 
     static double arrivalRate = 19.78569777;
     
-    static boolean debug = true;//Prints out all events and doest let user choose options
+    static boolean debug = false;//Prints out all events and doest let user choose options
     
     static ArrayList<Event> events = new ArrayList<>();//times of all the upcoming events     
     static double currentTime = 0;//current program time (hours)
@@ -67,10 +67,10 @@ public class GymSimulation {
 			
         }else{
             endTime = 24;
-            powerRacks = 12;
+            powerRacks = 10;
 			squat = 3;
 			bench = 3;
-            choice.equals("y");
+            choice = "n";
         }
         
         freePowerRacks = powerRacks;//all power racks start out empty
@@ -112,7 +112,7 @@ public class GymSimulation {
         
     }
 
-    private static void choiceArrival() {
+    private static void choiceArrival() {	
         if(debug) System.out.println(currentTime + ": Member arrives at gym");
         
         //create member that arrived now
@@ -133,7 +133,7 @@ public class GymSimulation {
     }
 
     private static void memberArrival() {
-        if(debug) System.out.print(currentTime + ": Member arrives at gym");
+        if(debug) System.out.println(currentTime + ": Member arrives at gym");
         
         //create member that arrived now
         Member arrivedMember = new Member(currentTime);
@@ -160,7 +160,7 @@ public class GymSimulation {
         events.add(newEvent);
     }
 
-    private static void benchArrival(Member arrivingMember) {
+    private static void benchArrival(Member arrivingMember) {	
 		benchLength += benchLine.size();
         benchCount ++;
 
@@ -177,12 +177,13 @@ public class GymSimulation {
     }
 
     private static void squatArrival(Member arrivingMember) {
+System.out.println(squatLine.size());	
 		squatLength += squatLine.size();
         squatCount ++;
 		
         if(debug) System.out.println(", Member is using squat");        
         if(squatLine.isEmpty() && freeSquat>0){
-            freeBench--;//Power rack is now taken up
+            freeSquat--;//Power rack is now taken up
             arrivingMember.setStartTime(currentTime);//member starts now
             double liftTime = getNormal();//TODO: calculate lift time
             Event newEvent = new Event(currentTime+liftTime,6,arrivingMember);//member will exit after done lifting
@@ -218,13 +219,12 @@ public class GymSimulation {
     private static void benchExit(Member exitingMember) {
         if(debug) System.out.print(currentTime + ": Member using bench is exiting the gym");         
         exitingMember.setEndTime(currentTime);
-System.out.println(exitingMember.getWaitTime());		
         liftTimes.add(exitingMember.getLiftTime());
         waitTimes.add(exitingMember.getWaitTime());
         numMembers++;
         benchMembers++;
         
-        if(line.isEmpty()){
+        if(benchLine.isEmpty()){
             if(debug) System.out.println(", Bench becomes available");             
             freeBench++;
         }else{
@@ -245,7 +245,7 @@ System.out.println(exitingMember.getWaitTime());
         numMembers++;
         squatMembers++;
         
-        if(line.isEmpty()){
+        if(squatLine.isEmpty()){
             if(debug) System.out.println(", Squat becomes available");              
             freeSquat++;
         }else{
@@ -343,7 +343,3 @@ System.out.println(exitingMember.getWaitTime());
     
     
 }
-
-
-
-
