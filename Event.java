@@ -1,48 +1,89 @@
-public class Event implements Comparable<Event> {
-    private Double time;
-    private int eventType;
-    private Member member;
+/**
+ *
+ * @author Benjamin
+ * 
+ */
+public class Member {
+    private double arrivalTime;
+    private double startTime;
+    private double endTime;
+    private boolean usedBench;
+    private int liftType;	
     
-    public Event(double time, int eventType) {
-        this.time = time;
-        this.eventType = eventType;
-        this.member = null;
-    }
-    
-    public Event(double time, int eventType, Member member) {
-        this.time = time;
-        this.eventType = eventType;
-        this.member = member;
+    public Member(double arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }    
 
-    public Member getMember() {
-        return member;
+    /**
+     * @return the time spent waiting
+     */
+    public double getWaitTime() {
+        return startTime-arrivalTime;
     }
-
-    public void setMember(Member member) {
-        this.member = member;
-    }
-    
-    public double getTime() {
-        return time;
-    }
-
-    public int getEventType() {
-        return eventType;
-    }  
-    
-    public void setTime(double time) {
-        this.time = time;
-    }
-
-    public void setEventType(int eventType) {
-        this.eventType = eventType;
-    }
-
-    @Override
-    public int compareTo(Event o) {
-      return (this.time).compareTo(o.getTime());
+    /**
+     * @return the time spent lifting
+     */
+    public double getLiftTime() {
+        return endTime-startTime;
     }
     
-    
+    /**
+     * @return the arrivalTime
+     */
+    public double getArrivalTime() {
+        return arrivalTime;
+    }
+
+    /**
+     * @param arrivalTime the arrivalTime to set
+     */
+    public void setArrivalTime(double arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
+    /**
+     * @return the time started lifting
+     */
+    public double getStartTime() {
+        return startTime;
+    }
+
+    /**
+     * @param startTime the lifting startTime to set
+     */
+    public void setStartTime(double startTime) {
+        this.startTime = startTime;
+    }
+
+    public double getLiftType() {
+        return liftType;
+    }
+
+    /**
+     * @param startTime the lifting startTime to set
+     */
+    public void setLiftType(int liftType) {
+        this.liftType = liftType;
+    }
+
+    /**
+     * @return the time ended lifting
+     */
+    public double getEndTime() {
+        return endTime;
+    }
+
+    /**
+     * @param endTime the lifting endTime to set
+     */
+    public void setEndTime(double endTime) {
+        this.endTime = endTime;
+    }
+	public boolean getUsedBench(){
+		return usedBench;
+	}
+	public void setUsedBench(boolean usedBench){
+		this.usedBench = usedBench;
+	}
+
 }
