@@ -37,6 +37,10 @@ public class GymSimulation {
 	static int squatMembers = 0;
     static double lineCount = 0;
     static double lineLength = 0;
+	static double benchCount = 0;
+	static double benchLength = 0;
+	static double squatCount = 0;
+	static double squatLength = 0;
     static String choice = "";
     
     public static void main(String[] args) {
@@ -48,17 +52,30 @@ public class GymSimulation {
             endTime = reader.nextInt(); 
             
             System.out.println("Should we used bench/squat spefic racks? (y/n)");
-            choice = reader.nextLine();
+            choice = reader.next();
             
-            System.out.println("How many Power Racks should there be?");
-            powerRacks = reader.nextInt();
+			if(choice.equals("n")){
+			    System.out.println("How many Power Racks should there be?");
+				powerRacks = reader.nextInt();	
+			}else{
+			    System.out.println("How many Bench should there be?");
+				squat = reader.nextInt();	
+				
+				System.out.println("How many Sqaut should there be?");
+				bench = reader.nextInt();	
+			}
+			
         }else{
             endTime = 24;
-            powerRacks = 10;
-            choice.equals("n");
+            powerRacks = 12;
+			squat = 3;
+			bench = 3;
+            choice.equals("y");
         }
         
         freePowerRacks = powerRacks;//all power racks start out empty
+		freeBench = bench;
+		freeSquat = squat;
         
         //generate first gym member
         if(choice.equals("y")){
@@ -80,8 +97,6 @@ public class GymSimulation {
                 memberArrival();
             }else if(events.get(0).getEventType()==2){
                 memberExit(events.get(0).getMember());
-            }else if(events.get(0).getEventType()==3){
-                results();
             }else if(events.get(0).getEventType()==4){
                 choiceArrival();
             }else if(events.get(0).getEventType()==5){
@@ -109,10 +124,6 @@ public class GymSimulation {
         }else{
             squatArrival(arrivedMember);
         }
-        
-        //track average length of line
-        lineLength += line.size();
-        lineCount ++;
         
         //after member has arrived figure out the time for next arrival
         double nextArrivalTime = currentTime+exponential(arrivalRate);
@@ -150,7 +161,10 @@ public class GymSimulation {
     }
 
     private static void benchArrival(Member arrivingMember) {
-        if(debug) System.out.println(", Member is using bench");        
+		benchLength += benchLine.size();
+        benchCount ++;
+
+		if(debug) System.out.println(", Member is using bench");        
         if(benchLine.isEmpty() && freeBench>0){
             freeBench--;//Power rack is now taken up
             arrivingMember.setStartTime(currentTime);//member starts now
@@ -163,6 +177,9 @@ public class GymSimulation {
     }
 
     private static void squatArrival(Member arrivingMember) {
+		squatLength += squatLine.size();
+        squatCount ++;
+		
         if(debug) System.out.println(", Member is using squat");        
         if(squatLine.isEmpty() && freeSquat>0){
             freeBench--;//Power rack is now taken up
@@ -201,6 +218,7 @@ public class GymSimulation {
     private static void benchExit(Member exitingMember) {
         if(debug) System.out.print(currentTime + ": Member using bench is exiting the gym");         
         exitingMember.setEndTime(currentTime);
+System.out.println(exitingMember.getWaitTime());		
         liftTimes.add(exitingMember.getLiftTime());
         waitTimes.add(exitingMember.getWaitTime());
         numMembers++;
@@ -239,12 +257,14 @@ public class GymSimulation {
             events.add(newEvent); 
         }
     }  
-    //print out the results
+    //print out the 
     //to print out average line length divide lineLength/lineCount
     public static void results(){   
         double avg_wait_time = 0;
         double avg_lift_time = 0;
         double avg_line_length = 0;
+        double avg_bench_length = 0;
+        double avg_squat_length = 0;		
         int num_benched = 0;
         double percent_benched = 0;
 
@@ -266,18 +286,30 @@ public class GymSimulation {
 
         avg_wait_time /= waitTimes.size();
         avg_lift_time /= liftTimes.size();
-        avg_line_length = lineLength / lineCount;
-        percent_benched = num_benched / waitTimes.size();
+		if(choice.equals("n")){
+			avg_line_length = lineLength / lineCount;
+			percent_benched = num_benched / waitTimes.size();
+		}else{
+			avg_bench_length = benchLength / benchCount;
+			avg_squat_length = squatLength / squatCount;
+		}
 
 
 
         System.out.println("Total Simulation runtime: " + endTime);
-        System.out.println("Number of Power Racks: " + powerRacks);
+		if(choice.equals("n")){
+			System.out.println("Number of Power Racks: " + powerRacks);
+			System.out.println("Average Line Length: " + avg_line_length);
+		}else{
+			System.out.println("Number of Bench: " + bench);			
+			System.out.println("Number of Squat: " + squat);			
+			System.out.println("Average Bench Line Length: " + avg_bench_length);
+			System.out.println("Average Squat Line Length: " + avg_squat_length);			
+		}
 
         System.out.println("Average Wait Time: " + avg_wait_time);
         System.out.println("Average Lift Time: " + avg_lift_time);
-        System.out.println("Average Line Length: " + avg_line_length);
-        System.out.println("% of Bench users: " + percent_benched);
+        //System.out.println("% of Bench users: " + percent_benched);
     }
     
     //returns the arrival time of the next geometric distribution
@@ -311,5 +343,7 @@ public class GymSimulation {
     
     
 }
+
+
 
 
