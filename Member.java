@@ -1,4 +1,4 @@
-/**
+ /**
  *
  * @author Benjamin
  * 
@@ -55,14 +55,14 @@ public class Member {
         this.startTime = startTime;
     }
 
-    public double getLiftTime() {
+    public double getLiftType() {
         return liftType;
     }
 
     /**
      * @param startTime the lifting startTime to set
      */
-    public void setLiftType(double liftType) {
+    public void setLiftType(int liftType) {
         this.liftType = liftType;
     }
 
