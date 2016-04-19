@@ -332,6 +332,12 @@ System.out.println(squatLine.size());
     }
     //use this to not need to input mean/SD
     public static double getNormal() {
+        /*Random rand = new Random();
+        double number = rand.nextDouble();
+        if(number<((double)41/(double)151)){
+            return normal(1.4080,0.235017207);
+        }*/
+        //41/151
         return normal(0.4080,0.235017207);
     }
     
