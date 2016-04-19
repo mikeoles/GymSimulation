@@ -136,7 +136,7 @@ public class GymSimulation {
         if(line.isEmpty() && freePowerRacks>0){
             freePowerRacks--;//Power rack is now taken up
             arrivedMember.setStartTime(currentTime);//member starts now
-            double liftTime = .5;//TODO: calculate lift time
+            double liftTime = getNormal();//TODO: calculate lift time
             Event newEvent = new Event(currentTime+liftTime,2,arrivedMember);//member will exit after done lifting
             events.add(newEvent);            
         }else{//has to wait in line
@@ -154,7 +154,7 @@ public class GymSimulation {
         if(benchLine.isEmpty() && freeBench>0){
             freeBench--;//Power rack is now taken up
             arrivingMember.setStartTime(currentTime);//member starts now
-            double liftTime = .5;//TODO: calculate lift time
+            double liftTime = getNormal();//TODO: calculate lift time
             Event newEvent = new Event(currentTime+liftTime,5,arrivingMember);//member will exit after done lifting
             events.add(newEvent);            
         }else{//has to wait in line
@@ -167,7 +167,7 @@ public class GymSimulation {
         if(squatLine.isEmpty() && freeSquat>0){
             freeBench--;//Power rack is now taken up
             arrivingMember.setStartTime(currentTime);//member starts now
-            double liftTime = .5;//TODO: calculate lift time
+            double liftTime = getNormal();//TODO: calculate lift time
             Event newEvent = new Event(currentTime+liftTime,6,arrivingMember);//member will exit after done lifting
             events.add(newEvent);            
         }else{//has to wait in line
@@ -191,7 +191,7 @@ public class GymSimulation {
         }else{
             if(debug) System.out.println(", next member in line takes their rack");              
             Member nextMember = line.poll();
-            double liftTime = .5;
+            double liftTime = getNormal();
             nextMember.setStartTime(currentTime);
             Event newEvent = new Event(currentTime+liftTime,2,nextMember);//member will exit after done lifting
             events.add(newEvent); 
@@ -212,7 +212,7 @@ public class GymSimulation {
         }else{
             if(debug) System.out.println(", next member in line takes their bench");             
             Member nextMember = benchLine.poll();
-            double liftTime = .5;
+            double liftTime = getNormal();
             nextMember.setStartTime(currentTime);
             Event newEvent = new Event(currentTime+liftTime,5,nextMember);//member will exit after done lifting
             events.add(newEvent); 
@@ -233,7 +233,7 @@ public class GymSimulation {
         }else{
             if(debug) System.out.println(", next member in line takes their squat");             
             Member nextMember = squatLine.poll();
-            double liftTime = .5;
+            double liftTime = getNormal();
             nextMember.setStartTime(currentTime);
             Event newEvent = new Event(currentTime+liftTime,6,nextMember);//member will exit after done lifting
             events.add(newEvent); 
