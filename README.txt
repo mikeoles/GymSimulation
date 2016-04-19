@@ -6,5 +6,7 @@
 6. When lift time is up.  Remove member from rack.  If queue has members: step 4, 
 if not increase the number of free racks.
 
+Slides: https://docs.google.com/presentation/d/17lYEcQ3UFFvWMOCfkhNuxkAjVWeOsNhTvxFboOd8y_A/edit?usp=sharing
+
 
 
