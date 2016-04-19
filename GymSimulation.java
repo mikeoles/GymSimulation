@@ -20,17 +20,24 @@ public class GymSimulation {
     static double endTime = 0;//time program will end
     
     static Queue<Member> line = new LinkedList();//first class check in line    
+    static Queue<Member> benchLine = new LinkedList();//first class check in line    
+    static Queue<Member> squatLine = new LinkedList();//first class check in line    
     
     static double powerRacks = 0;//number of power racks in the gym
     static double freePowerRacks = 0;//number of open power racks
+	static double bench = 0;
+	static double freeBench = 0;
+	static double squat = 0;
+	static double freeSquat = 0;
     
     static ArrayList<Double> waitTimes = new ArrayList<>();
     static ArrayList<Double> liftTimes = new ArrayList<>();
     static int numMembers = 0;
     static int benchMembers = 0;
+	static int squatMembers = 0;
     static double lineCount = 0;
     static double lineLength = 0;
-    satic char choice = '';
+    static String choice = "";
     
     public static void main(String[] args) {
         System.out.println("Start Simulation");
@@ -41,20 +48,20 @@ public class GymSimulation {
             endTime = reader.nextInt(); 
             
             System.out.println("Should we used bench/squat spefic racks? (y/n)");
-            choice = reader.nextChar();
+            choice = reader.nextLine();
             
             System.out.println("How many Power Racks should there be?");
             powerRacks = reader.nextInt();
         }else{
             endTime = 24;
             powerRacks = 10;
-            choice = 'n';
+            choice.equals("n");
         }
         
         freePowerRacks = powerRacks;//all power racks start out empty
         
         //generate first gym member
-        if(choice == 'y'){
+        if(choice.equals("y")){
             double arrivalTime = exponential(arrivalRate);
             Event newEvent = new Event(arrivalTime,4);
             events.add(newEvent);      
@@ -78,9 +85,9 @@ public class GymSimulation {
             }else if(events.get(0).getEventType()==4){
                 choiceArrival();
             }else if(events.get(0).getEventType()==5){
-                benchExit();
+                benchExit(events.get(0).getMember());
             }else if(events.get(0).getEventType()==6){
-                squatExit();
+                squatExit(events.get(0).getMember());
             }
             events.remove(0);                 
         }
@@ -146,12 +153,12 @@ public class GymSimulation {
         if(debug) System.out.println(", Member is using bench");        
         if(benchLine.isEmpty() && freeBench>0){
             freeBench--;//Power rack is now taken up
-            arrivedMember.setStartTime(currentTime);//member starts now
+            arrivingMember.setStartTime(currentTime);//member starts now
             double liftTime = .5;//TODO: calculate lift time
-            Event newEvent = new Event(currentTime+liftTime,5,arrivedMember);//member will exit after done lifting
+            Event newEvent = new Event(currentTime+liftTime,5,arrivingMember);//member will exit after done lifting
             events.add(newEvent);            
         }else{//has to wait in line
-            benchLine.add(arrivedMember);
+            benchLine.add(arrivingMember);
         }        
     }
 
@@ -159,12 +166,12 @@ public class GymSimulation {
         if(debug) System.out.println(", Member is using squat");        
         if(squatLine.isEmpty() && freeSquat>0){
             freeBench--;//Power rack is now taken up
-            arrivedMember.setStartTime(currentTime);//member starts now
+            arrivingMember.setStartTime(currentTime);//member starts now
             double liftTime = .5;//TODO: calculate lift time
-            Event newEvent = new Event(currentTime+liftTime,6,arrivedMember);//member will exit after done lifting
+            Event newEvent = new Event(currentTime+liftTime,6,arrivingMember);//member will exit after done lifting
             events.add(newEvent);            
         }else{//has to wait in line
-            squatLine.add(arrivedMember);
+            squatLine.add(arrivingMember);
         }              
     }
 
@@ -174,7 +181,7 @@ public class GymSimulation {
         liftTimes.add(exitingMember.getLiftTime());
         waitTimes.add(exitingMember.getWaitTime());
         numMembers++;
-        if(exitingMember.usedBench()){
+        if(exitingMember.getUsedBench()){
             benchMembers++;
         }
         
@@ -235,21 +242,21 @@ public class GymSimulation {
     //print out the results
     //to print out average line length divide lineLength/lineCount
     public static void results(){   
-        double avg_wait_time;
-        double avg_lift_time;
-        double avg_line_length;
-        int num_benched;
-        double percent_benched;
+        double avg_wait_time = 0;
+        double avg_lift_time = 0;
+        double avg_line_length = 0;
+        int num_benched = 0;
+        double percent_benched = 0;
 
-        for (int i = 0; i < waitTimes.length; i++){
-            avg_wait_time += waitTimes[i];
+        for (int i = 0; i < waitTimes.size(); i++){
+            avg_wait_time += waitTimes.get(i);
         }
 
-        for (int i = 0; i < liftTimes.length; i++){
-            avg_lift_time += liftTimes[i];
+        for (int i = 0; i < liftTimes.size(); i++){
+            avg_lift_time += liftTimes.get(i);
         }
 
-        for (int i = 0; i < waitTimes.length; i++){ //use same array, want to generate same # of bench probabilities as ppl in this array
+        for (int i = 0; i < waitTimes.size(); i++){ //use same array, want to generate same # of bench probabilities as ppl in this array
             if (usedBench()){
                 num_benched++;
             }
@@ -257,10 +264,10 @@ public class GymSimulation {
 
         
 
-        avg_wait_time /= waitTimes.length;
-        avg_lift_time /= liftTimes.length;
+        avg_wait_time /= waitTimes.size();
+        avg_lift_time /= liftTimes.size();
         avg_line_length = lineLength / lineCount;
-        percent_benched = num_benched / waitTimes.length;
+        percent_benched = num_benched / waitTimes.size();
 
 
 
@@ -304,6 +311,5 @@ public class GymSimulation {
     
     
 }
-
 
 
