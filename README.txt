@@ -8,6 +8,3 @@ if not increase the number of free racks.
 
 Slides: https://docs.google.com/presentation/d/17lYEcQ3UFFvWMOCfkhNuxkAjVWeOsNhTvxFboOd8y_A/edit?usp=sharing
 
-
-Improvements: 
-Get lifting times for separate bench and squat.
