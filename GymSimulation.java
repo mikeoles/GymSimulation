@@ -59,10 +59,10 @@ public class GymSimulation {
 				powerRacks = reader.nextInt();	
 			}else{
 			    System.out.println("How many Bench should there be?");
-				squat = reader.nextInt();	
+				bench = reader.nextInt();
 				
 				System.out.println("How many Sqaut should there be?");
-				bench = reader.nextInt();	
+				squat = reader.nextInt();
 			}
 			
         }else{
@@ -177,7 +177,6 @@ public class GymSimulation {
     }
 
     private static void squatArrival(Member arrivingMember) {
-System.out.println(squatLine.size());	
 		squatLength += squatLine.size();
         squatCount ++;
 		
